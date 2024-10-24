@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصه هارفست للقدرات</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #2196F3; /* خلفية زرقاء */
+            font-family: 'Cairo', sans-serif; /* خط عربي */
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            backdrop-filter: blur(10px);
+            width: 300px;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .submit-button {
+            background: #ff5722;
+            border: none;
+            border-radius: 30px;
+            padding: 10px 20px;
+            font-size: 18px;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .submit-button:hover {
+            background: #e64a19;
+            transform: translateY(-3px);
+        }
+
+        .bubble {
+            position: absolute;
+            bottom: -50px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: rise 4s infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes rise {
+            0% {
+                bottom: -50px;
+                transform: scale(0.5);
+            }
+            100% {
+                bottom: 100vh;
+                transform: scale(1);
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container">
+        <h1>إنشاء حساب جديد</h1>
+        <input type="text" placeholder="اسم المستخدم" required>
+        <input type="email" placeholder="البريد الإلكتروني" required>
+        <input type="password" placeholder="كلمة السر" required>
+        <input type="password" placeholder="تأكيد كلمة السر" required>
+        <input type="text" placeholder="رقم الجوال" required>
+        <input type="text" placeholder="رقم جوال ولي الأمر" required>
+        <input type="text" placeholder="المدينة" required>
+        <select required>
+            <option value="" disabled selected>اختر الصف الدراسي</option>
+            <option value="الأول الثانوي">الأول الثانوي</option>
+            <option value="الثاني الثانوي">الثاني الثانوي</option>
+            <option value="الثالث الثانوي">الثالث الثانوي</option>
+            <option value="الصف الأول">الصف الأول</option>
+            <option value="الصف الثاني">الصف الثاني</option>
+            <option value="الصف الثالث">الصف الثالث</option>
+        </select>
+        <button class="submit-button" onclick="window.location.href='home.html'">إنشاء الحساب</button>
+    </div>
+
+    <script>
+        const numberOfBubbles = 20;
+
+        for (let i = 0; i < numberOfBubbles; i++) {
+            const bubble = document.createElement('div');
+            bubble.classList.add('bubble');
+            const size = Math.random() * 50 + 20; // حجم الفقاعة
+            bubble.style.width = `${size}px`;
+            bubble.style.height = `${size}px`;
+            bubble.style.left = `${Math.random() * 100}vw`;
+            bubble.style.animationDuration = `${Math.random() * 2 + 3}s`; // زمن الحركة
+            document.body.appendChild(bubble);
+        }
+    </script>
+</body>
+</html>

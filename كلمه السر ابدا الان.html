@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصه هارفست للقدرات</title>
+    <style>
+        body {
+            background-color: #007BFF; /* خلفية زرقاء */
+            color: white;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 0;
+        }
+
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: float 5s infinite;
+        }
+
+        .bubble1 { width: 50px; height: 50px; background: red; }
+        .bubble2 { width: 30px; height: 30px; background: yellow; }
+        .bubble3 { width: 40px; height: 40px; background: green; }
+        .bubble4 { width: 60px; height: 60px; background: orange; }
+        .bubble5 { width: 25px; height: 25px; background: purple; }
+
+        input[type="password"] {
+            padding: 10px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: white;
+            color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            display: none; /* مخفي حتى إدخال كلمة السر الصحيحة */
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="bubble bubble1"></div>
+    <div class="bubble bubble2"></div>
+    <div class="bubble bubble3"></div>
+    <div class="bubble bubble4"></div>
+    <div class="bubble bubble5"></div>
+
+    <h1>أدخل كلمة السر</h1>
+    <input type="password" id="password" placeholder="كلمة السر">
+    <button class="button" id="submitBtn" onclick="checkPassword()">أدخل</button>
+
+    <script>
+        const correctPassword = '123456789101112';
+
+        // إعداد الفقاعات
+        const bubbles = document.querySelectorAll('.bubble');
+        bubbles.forEach(bubble => {
+            const randomX = Math.random() * window.innerWidth;
+            const randomDuration = Math.random() * 5 + 3; // مدة بين 3 إلى 8 ثواني
+            bubble.style.left = `${randomX}px`;
+            bubble.style.animationDuration = `${randomDuration}s`;
+        });
+
+        // وظيفة للتحقق من كلمة السر
+        document.getElementById('password').addEventListener('input', function() {
+            const password = this.value;
+            if (password === correctPassword) {
+                document.getElementById('submitBtn').style.display = 'block';
+                this.style.borderColor = 'green'; // تغيير لون الحدود
+            } else {
+                document.getElementById('submitBtn').style.display = 'none';
+                this.style.borderColor = 'red'; // تغيير لون الحدود
+            }
+        });
+
+        function checkPassword() {
+            const password = document.getElementById('password').value;
+            if (password === correctPassword) {
+                window.location.href = 'start.html'; // نقل إلى صفحة ابدأ الآن
+            } else {
+                alert('كلمة السر غير صحيحة!');
+            }
+        }
+    </script>
+</body>
+</html>

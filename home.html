@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصه هارفست للقدرات</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-color: #00aaff; /* لون خلفية أزرق */
+            overflow-y: scroll; /* إظهار ساحب التمرير */
+            height: 100vh; /* جعل ارتفاع الجسم 100% */
+            margin: 0;
+            position: relative;
+            font-family: Arial, sans-serif;
+            scrollbar-width: thin; /* لجعل الساحب نحيف */
+            scrollbar-color: white rgba(0, 0, 0, 0.3); /* لون الساحب */
+        }
+
+        /* ساحب التمرير للمتصفحات التي تدعم Webkit (Chrome, Safari) */
+        ::-webkit-scrollbar {
+            width: 8px; /* عرض الساحب */
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1); /* خلفية الساحب */
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: white; /* لون الساحب */
+            border-radius: 10px; /* زوايا الساحب */
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.7); /* لون الساحب عند التمرير */
+        }
+
+        /* فقاعات */
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            animation: rise 5s infinite;
+            z-index: 0;
+        }
+
+        @keyframes rise {
+            0% {
+                bottom: -100px;
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                bottom: 100vh;
+                opacity: 0;
+            }
+        }
+
+        /* إضافة فقاعات بأحجام ومواقع مختلفة */
+        .bubble:nth-child(1) {
+            width: 50px;
+            height: 50px;
+            left: 10%;
+            animation-duration: 6s;
+        }
+
+        .bubble:nth-child(2) {
+            width: 70px;
+            height: 70px;
+            left: 30%;
+            animation-duration: 5s;
+        }
+
+        .bubble:nth-child(3) {
+            width: 40px;
+            height: 40px;
+            left: 50%;
+            animation-duration: 4s;
+        }
+
+        .bubble:nth-child(4) {
+            width: 60px;
+            height: 60px;
+            left: 70%;
+            animation-duration: 7s;
+        }
+
+        .bubble:nth-child(5) {
+            width: 80px;
+            height: 80px;
+            left: 90%;
+            animation-duration: 5.5s;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin: 20px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        nav {
+            text-align: center;
+            z-index: 1;
+            margin: 20px 0;
+        }
+
+        ul {
+            list-style-type: none; /* إزالة النقاط */
+            padding: 0;
+        }
+
+        li {
+            display: inline-block;
+            font-size: 1.5em;
+            color: white;
+            margin: 0 15px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideIn 1s ease-in-out forwards;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* تحديد توقيت ظهور عناصر القائمة */
+        li:nth-child(1) { animation-delay: 0.5s; }
+        li:nth-child(2) { animation-delay: 1s; }
+        li:nth-child(3) { animation-delay: 1.5s; }
+        li:nth-child(4) { animation-delay: 2s; }
+
+        /* شريط البحث */
+        .search-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 5px;
+            width: 300px;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            border: 2px solid white;
+            transform: scale(1.05);
+        }
+
+        /* قسم معلومات الدورة */
+        .course-info {
+            text-align: center;
+            color: white;
+            margin: 40px 0;
+        }
+
+        .course {
+            border: 1px solid white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px auto;
+            width: 80%;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .course h2 {
+            margin: 0 0 10px;
+        }
+
+        .course p {
+            margin: 10px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 1em;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* قسم العروض */
+        .offers {
+            text-align: center;
+            color: white;
+            margin: 40px 0;
+        }
+
+        .offer {
+            display: inline-block;
+            border: 1px solid white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px;
+            width: 200px;
+            background: rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: offerSlideIn 1s forwards;
+        }
+
+        @keyframes offerSlideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .offer:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        /* قسم الاختبارات */
+        .tests {
+            text-align: center;
+            color: white;
+            margin: 40px 0;
+        }
+
+        .test {
+            display: inline-block;
+            border: 1px solid white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px;
+            width: 150px;
+            background: rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: testSlideIn 1s forwards;
+        }
+
+        @keyframes testSlideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .test:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        /* قسم مواقع التواصل الاجتماعي */
+        .social-media {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .social-media a {
+            margin: 0 15px;
+            color: white;
+            font-size: 2em;
+            text-decoration: none;
+        }
+
+        /* الفوتر */
+        footer {
+            text-align: center;
+            color: white;
+            padding: 20px 0;
+            background-color: #007bff;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* نافذة المحادثة */
+        .chat-window {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .chat-header {
+            background: #007bff;
+            color: white;
+            padding: 10px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            text-align: center;
+        }
+
+        .chat-body {
+            padding: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 10px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 5px;
+        }
+
+        .chat-input button {
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .chat-input button:hover {
+            background: #0056b3;
+        }
+
+        /* أيقونة الإشعارات */
+        .notification-icon {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            font-size: 2em;
+            color: white;
+            cursor: pointer;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>منصة علمية</h1>
+        <nav>
+            <ul>
+                <li><a href="الدورات.html">الدورات</a></li>
+                <li><a href="العروض.html">العروض</a></li>
+                <li><a href="كلمه السر ابدا الان.html">ابدأ الآن</a></li>
+                <li><a href="كيفيه التعامل مع الموقع.html">كيفية التعامل مع المنصة</a></li>
+            </ul>
+        </nav>
+        <div class="search-container">
+            <input type="text" placeholder="ابحث هنا...">
+        </div>
+    </header>
+
+    <div class="notification-icon" onclick="toggleChat()">
+        <i class="fas fa-bell"></i>
+    </div>
+
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">دردشة مع خدمة عملاء منصة هارفست</div>
+        <div class="chat-body" id="chatBody">
+            <!-- الرسائل ستظهر هنا -->
+        </div>
+        <div class="chat-input">
+            <input type="text" id="userInput" placeholder="اكتب رسالتك هنا...">
+            <button onclick="sendMessage()">إرسال</button>
+        </div>
+    </div>
+
+    <div class="course-info">
+        <div class="course">
+            <h2>دورة التأسيس</h2>
+            <p>تقدم هذه الدورة مقدمة شاملة للمفاهيم الأساسية في المجال العلمي، تشمل محتوى تعليمي متكامل.</p>
+            <p>المدة: 4 أسابيع | المستوى: مبتدئ</p>
+            <a href="#" class="btn">معرفة المزيد</a>
+            <a href="#" class="btn">أضف إلى العربة</a>
+        </div>
+        <div class="course">
+            <h2>دورة النماذج</h2>
+            <p>تتناول هذه الدورة كيفية بناء النماذج العلمية واستخدامها لتحليل البيانات وتقديم الاستنتاجات.</p>
+            <p>المدة: 6 أسابيع | المستوى: متوسط</p>
+            <a href="#" class="btn">معرفة المزيد</a>
+            <a href="#" class="btn">أضف إلى العربة</a>
+        </div>
+    </div>
+
+    <div class="offers">
+        <h2>عروض خاصة!</h2>
+        <div class="offer">
+            <h3>خصم 20%</h3>
+            <p>على دورة التأسيس!</p>
+        </div>
+        <div class="offer">
+            <h3>خصم 20%</h3>
+            <p>على دورة النماذج!</p>
+        </div>
+    </div>
+
+    <div class="tests">
+        <h2>اختباراتنا</h2>
+        <div class="test">
+            <h3>اختبار 1</h3>
+            <p>اختبار قصير لتقييم المفاهيم الأساسية.</p>
+        </div>
+        <div class="test">
+            <h3>اختبار 2</h3>
+            <p>اختبار شامل حول المحتوى التعليمي.</p>
+        </div>
+        <div class="test">
+            <h3>اختبار 3</h3>
+            <p>اختبار تقييم المعرفة النظرية.</p>
+        </div>
+        <div class="test">
+            <h3>اختبار 4</h3>
+            <p>اختبار تطبيقي على المشروعات العلمية.</p>
+        </div>
+        <div class="test">
+            <h3>اختبار 5</h3>
+            <p>اختبار تقييم عام للمحتوى.</p>
+        </div>
+    </div>
+
+    <div class="social-media">
+        <h2>تابعونا على مواقع التواصل الاجتماعي</h2>
+        <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.linkedin.com" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://www.youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+    </div>
+
+    <footer>
+        <p>حقوق الطبع والنشر © 2024 منصة علمية. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <!-- فقاعات متحركة -->
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+
+    <script>
+        function toggleChat() {
+            const chatWindow = document.getElementById('chatWindow');
+            chatWindow.style.display = chatWindow.style.display === 'none' || chatWindow.style.display === '' ? 'block' : 'none';
+        }
+
+        function sendMessage() {
+            const userInput = document.getElementById('userInput');
+            const chatBody = document.getElementById('chatBody');
+            const message = userInput.value.trim();
+
+            if (message) {
+                // إضافة رسالة المستخدم إلى نافذة الدردشة
+                const userMessage = document.createElement('div');
+                userMessage.textContent = 'أنت: ' + message;
+                chatBody.appendChild(userMessage);
+
+                // رد خدمة العملاء
+                const customerServiceResponse = document.createElement('div');
+                customerServiceResponse.textContent = 'خدمة عملاء منصة هارفست: شكرًا على رسالتك! كيف يمكنني مساعدتك؟';
+                chatBody.appendChild(customerServiceResponse);
+
+                // إفراغ حقل الإدخال
+                userInput.value = '';
+
+                // تمرير الشات للأسفل
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }
+        }
+    </script>
+</body>
+</html>
